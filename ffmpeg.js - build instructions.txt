@@ -1,0 +1,25 @@
+-- To remove directory in Ubuntu, use command rm -r [directoryname], e.g. rm -r ffmpeg.js
+-- Make changes locally, then push to https://github.com/deju1980/ffmpeg.js
+
+sudo apt-get update
+sudo apt-get install -y git python build-essential automake libtool pkg-config
+
+cd ~
+git clone https://github.com/emscripten-core/emsdk.git && cd emsdk
+-- Doesn't work with later version of emscripten
+git checkout tags/1.39.13
+./emsdk install latest
+./emsdk activate latest
+source emsdk_env.sh
+
+cd ~
+git clone https://github.com/deju1980/ffmpeg.js.git --recurse-submodules && cd ffmpeg.js
+make
+
+
+--Access file via httpserver (in ffmpeg.js folder)
+
+python -m SimpleHTTPServer
+
+-- Go to localhost:8000 to download file
+
