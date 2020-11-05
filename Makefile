@@ -6,9 +6,9 @@ PRE_JS = build/pre.js
 POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
-COMMON_FILTERS = aresample atempo asetrate anequalizer
+COMMON_FILTERS = null
 COMMON_DEMUXERS = ogg mp3 wav 
-COMMON_DECODERS = vorbis opus mp3 aac pcm_s16le 
+COMMON_DECODERS = vorbis opus mp3 aac flac pcm_s16le 
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8 libopus
@@ -18,12 +18,13 @@ WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-MP4_MUXERS = mp3 null
-MP4_ENCODERS = libmp3lame aac
+MP4_MUXERS = ogg mp3 aac flac
+MP4_ENCODERS = libmp3lame aac flac 
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
+	build/opus/dist/lib/libopus.so \
 	build/x264/dist/lib/libx264.so
 
 all: webm mp4
