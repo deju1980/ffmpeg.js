@@ -6,7 +6,7 @@ PRE_JS = build/pre.js
 POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
-COMMON_FILTERS = null
+COMMON_FILTERS = aresample
 COMMON_DEMUXERS = ogg mp3 wav 
 COMMON_DECODERS = vorbis opus mp3 aac flac pcm_s16le 
 
@@ -24,7 +24,6 @@ FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
-	build/opus/dist/lib/libopus.so \
 	build/x264/dist/lib/libx264.so
 
 all: webm mp4
