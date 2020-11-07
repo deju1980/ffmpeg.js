@@ -23,3 +23,14 @@ python -m SimpleHTTPServer
 
 -- Go to localhost:8000 to download file
 
+
+-- note - to create patch file:
+
+git diff master lame-cc-optimization-fix > lame-cc-optimization-fix.patch
+
+-- then update Make file, e.g. 
+build/lame/dist/lib/libmp3lame.so:
+	cd build/lame/lame && \
+	git reset --hard && \
+	patch -p2 < ../../lame-fix-ld.patch && \
+	patch -p3 < ../../lame-cc-optimization-fix.patch && \
