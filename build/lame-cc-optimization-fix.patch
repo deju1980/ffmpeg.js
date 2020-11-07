@@ -1,0 +1,13 @@
+diff --git a/lame/configure.in b/lame/configure.in
+index 91a714ed..1473b84e 100644
+--- a/lame/configure.in
++++ b/lame/configure.in
+@@ -96,7 +96,7 @@ if test "x${GCC}" = "xyes"; then
+ 		AC_MSG_CHECKING(version of GCC)
+ 		GCC_version="`${CC} --version | sed -n '1s/^[[^ ]]* (.*) //;s/ .*$//;1p'`"
+ 		case "${GCC_version}" in 
+-		[0-9]*[0-9]*)
++		[[0-9]*[0-9]]*)
+ 			AC_MSG_RESULT(${GCC_version})
+ 			;;
+ 		*)

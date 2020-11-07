@@ -96,6 +96,7 @@ build/lame/dist/lib/libmp3lame.so:
 	cd build/lame/lame && \
 	git reset --hard && \
 	patch -p2 < ../../lame-fix-ld.patch && \
+	patch -p3 < ../../lame-cc-optimization-fix.patch && \
 	emconfigure ./configure \
 		CFLAGS="-DNDEBUG -O3" \
 		--prefix="$$(pwd)/../dist" \
