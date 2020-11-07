@@ -19,7 +19,7 @@ WEBM_SHARED_DEPS = \
 	build/libvpx/dist/lib/libvpx.so
 
 MP4_MUXERS = ogg mp3 aac flac mp4 ipod
-MP4_ENCODERS = libmp3lame aac flac libshine
+MP4_ENCODERS = libmp3lame aac flac
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
@@ -154,7 +154,7 @@ FFMPEG_COMMON_ARGS = \
 	--disable-runtime-cpudetect \
 	--disable-asm \
 	--disable-fast-unaligned \
-	--disable-pthreads \
+	--enable-pthreads \
 	--disable-w32threads \
 	--disable-os2threads \
 	--disable-debug \
