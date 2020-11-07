@@ -10,4 +10,4 @@ index cea313d..aee44a6 100644
 +       [[0-9]]*[[0-9]]*)
             AC_MSG_RESULT(${GCC_version})
             ;;
-        *)
+        
