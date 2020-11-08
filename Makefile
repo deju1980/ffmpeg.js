@@ -54,13 +54,13 @@ build/shine/configure:
 	cd build/shine && ./autogen.sh
 	
 build/shine/dist/lib/libshine.so: build/shine/configure
-cd build/shine && \
-emconfigure ./configure \
-	--prefix="$$(pwd)/dist" \
-	--disable-shared \
-	&& \
-emmake make -j && \
-emmake make install
+	cd build/shine && \
+	emconfigure ./configure \
+		--prefix="$$(pwd)/dist" \
+		--disable-shared \
+		&& \
+	emmake make -j && \
+	emmake make install
 
 build/opus/configure:
 	cd build/opus && ./autogen.sh
