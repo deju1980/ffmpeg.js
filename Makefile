@@ -8,10 +8,10 @@ POST_JS_WORKER = build/post-worker.js
 
 COMMON_FILTERS = aresample
 COMMON_DEMUXERS = ogg mp3 wav 
-COMMON_DECODERS = vorbis opus mp3 aac flac pcm_s16le 
+COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le 
 
 WEBM_MUXERS = webm ogg null
-WEBM_ENCODERS = libvpx_vp8 libopus
+WEBM_ENCODERS = libvpx_vp8
 FFMPEG_WEBM_BC = build/ffmpeg-webm/ffmpeg.bc
 FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
