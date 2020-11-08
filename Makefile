@@ -19,7 +19,7 @@ WEBM_SHARED_DEPS = \
 	build/libvpx/dist/lib/libvpx.so
 
 MP4_MUXERS = ogg mp3 aac flac mp4 ipod
-MP4_ENCODERS = libmp3lame aac flac
+MP4_ENCODERS = libmp3lame aac flac libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
@@ -32,7 +32,7 @@ mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 
 clean: clean-js \
 	clean-opus clean-libvpx clean-ffmpeg-webm \
-	clean-lame clean-x264 clean-ffmpeg-mp4
+	clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
@@ -47,6 +47,20 @@ clean-x264:
 	cd build/x264 && git clean -xdf
 clean-ffmpeg-mp4:
 	cd build/ffmpeg-mp4 && git clean -xdf
+clean-shine:
+	cd build/shine && git clean -xdf
+	
+build/shine/configure:
+	cd build/shine && ./autogen.sh
+	
+build/shine/dist/lib/libshine.so: build/shine/configure
+cd build/shine && \
+emconfigure ./configure \
+	--prefix="$$(pwd)/dist" \
+	--disable-shared \
+	&& \
+emmake make -j && \
+emmake make install
 
 build/opus/configure:
 	cd build/opus && ./autogen.sh
