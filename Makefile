@@ -96,6 +96,7 @@ build/lame/dist/lib/libmp3lame.so:
 	cd build/lame/lame && \
 	git reset --hard && \
 	patch -p2 < ../../lame-fix-ld.patch && \
+	patch -p3 < ../../lame-cc-optimization-fix.patch && \
 	emconfigure ./configure \
 		CFLAGS="-DNDEBUG -O3" \
 		--prefix="$$(pwd)/../dist" \
@@ -153,7 +154,7 @@ FFMPEG_COMMON_ARGS = \
 	--disable-runtime-cpudetect \
 	--disable-asm \
 	--disable-fast-unaligned \
-	--enable-pthreads \
+	--disable-pthreads \
 	--disable-w32threads \
 	--disable-os2threads \
 	--disable-debug \
