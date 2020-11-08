@@ -10,10 +10,6 @@
 	path = build/lame
 	url = https://github.com/Kagami/lame-svn.git
 	ignore = dirty
-[submodule "build/libshine"]
-	path = build/libshine
-	url = https://github.com/toots/shine.git
-	ignore = dirty
 [submodule "build/x264"]
 	path = build/x264
 	url = https://code.videolan.org/videolan/x264.git
@@ -26,3 +22,6 @@
 	path = build/ffmpeg-mp4
 	url = https://git.ffmpeg.org/ffmpeg.git
 	ignore = dirty
+[submodule "build/libshine/shine"]
+	path = build/libshine/shine
+	url = https://github.com/toots/shine
