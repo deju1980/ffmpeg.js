@@ -18,7 +18,7 @@ WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-MP4_MUXERS = ogg mp3 aac flac mp4 ipod
+MP4_MUXERS = ogg mp3 aac flac
 MP4_ENCODERS = libmp3lame aac flac
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
@@ -96,7 +96,6 @@ build/lame/dist/lib/libmp3lame.so:
 	cd build/lame/lame && \
 	git reset --hard && \
 	patch -p2 < ../../lame-fix-ld.patch && \
-	patch -p3 < ../../lame-cc-optimization-fix.patch && \
 	emconfigure ./configure \
 		CFLAGS="-DNDEBUG -O3" \
 		--prefix="$$(pwd)/../dist" \
@@ -184,7 +183,7 @@ FFMPEG_COMMON_ARGS = \
 	--disable-sdl2 \
 	--disable-securetransport \
 	--disable-xlib \
-	--disable-zlib
+	--enable-zlib
 
 build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
 	cd build/ffmpeg-webm && \
