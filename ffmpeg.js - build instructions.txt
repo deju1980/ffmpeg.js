@@ -34,3 +34,12 @@ build/lame/dist/lib/libmp3lame.so:
 	git reset --hard && \
 	patch -p2 < ../../lame-fix-ld.patch && \
 	patch -p3 < ../../lame-cc-optimization-fix.patch && \
+
+
+-- note to build shinev(in ubuntu)
+
+autoreconf -vfi
+automake
+make clean
+./configure
+make
