@@ -12,7 +12,7 @@
 	ignore = dirty
 [submodule "build/libshine"]
 	path = build/libshine
-	url = https://github.com/toots/shine
+	url = https://github.com/toots/shine.git
 	ignore = dirty
 [submodule "build/x264"]
 	path = build/x264
