@@ -184,7 +184,7 @@ FFMPEG_COMMON_ARGS = \
 	--disable-sdl2 \
 	--disable-securetransport \
 	--disable-xlib \
-	--enable-zlib
+	--disable-zlib
 
 build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
 	cd build/ffmpeg-webm && \
