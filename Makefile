@@ -1,6 +1,6 @@
-# Compile FFmpeg and all its dependencies to JavaScript.
-# You need emsdk environment installed and activated, see:
-# <https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>.
+ Compile FFmpeg and all its dependencies to JavaScript.
+ You need emsdk environment installed and activated, see:
+ <https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>.
 
 PRE_JS = build/pre.js
 POST_JS_SYNC = build/post-sync.js
@@ -27,8 +27,8 @@ MP4_SHARED_DEPS = \
 	build/x264/dist/lib/libx264.so \
 	build/shine/dist/lib/libshine.so
 
-#all: webm mp4
-#webm: ffmpeg-webm.js ffmpeg-worker-webm.js
+all: webm mp4
+webm: ffmpeg-webm.js ffmpeg-worker-webm.js
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 
 clean: clean-js \
@@ -152,15 +152,15 @@ build/x264/dist/lib/libx264.so:
 	emmake make -j && \
 	emmake make install
 
-# TODO(Kagami): Emscripten documentation recommends to always use shared
-# libraries but it's not possible in case of ffmpeg because it has
-# multiple declarations of `ff_log2_tab` symbol. GCC builds FFmpeg fine
-# though because it uses version scripts and so `ff_log2_tag` symbols
-# are not exported to the shared libraries. Seems like `emcc` ignores
-# them. We need to file bugreport to upstream. See also:
-# - <https://kripken.github.io/emscripten-site/docs/compiling/Building-Projects.html>
-# - <https://github.com/kripken/emscripten/issues/831>
-# - <https://ffmpeg.org/pipermail/libav-user/2013-February/003698.html>
+ TODO(Kagami): Emscripten documentation recommends to always use shared
+ libraries but it's not possible in case of ffmpeg because it has
+ multiple declarations of `ff_log2_tab` symbol. GCC builds FFmpeg fine
+ though because it uses version scripts and so `ff_log2_tag` symbols
+ are not exported to the shared libraries. Seems like `emcc` ignores
+ them. We need to file bugreport to upstream. See also:
+ - <https://kripken.github.io/emscripten-site/docs/compiling/Building-Projects.html>
+ - <https://github.com/kripken/emscripten/issues/831>
+ - <https://ffmpeg.org/pipermail/libav-user/2013-February/003698.html>
 FFMPEG_COMMON_ARGS = \
 	--cc=emcc \
 	--ranlib=emranlib \
@@ -202,19 +202,19 @@ FFMPEG_COMMON_ARGS = \
 	--disable-xlib \
 	--enable-zlib
 
-##build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
-	##cd build/ffmpeg-webm && \
-	##EM_PKG_CONFIG_PATH=$(FFMPEG_WEBM_PC_PATH) emconfigure ./configure \
-		##$(FFMPEG_COMMON_ARGS) \
-		##$(addprefix --enable-encoder=,$(WEBM_ENCODERS)) \
-		##$(addprefix --enable-muxer=,$(WEBM_MUXERS)) \
-		##--enable-libopus \
-		##--enable-libvpx \
-		##--extra-cflags="-s USE_ZLIB=1 -I../libvpx/dist/include" \
-		##--extra-ldflags="-L../libvpx/dist/lib" \
-		##&& \
-	##emmake make -j && \
-	##cp ffmpeg ffmpeg.bc
+build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
+	cd build/ffmpeg-webm && \
+	EM_PKG_CONFIG_PATH=$(FFMPEG_WEBM_PC_PATH) emconfigure ./configure \
+		$(FFMPEG_COMMON_ARGS) \
+		$(addprefix --enable-encoder=,$(WEBM_ENCODERS)) \
+		$(addprefix --enable-muxer=,$(WEBM_MUXERS)) \
+		--enable-libopus \
+		--enable-libvpx \
+		--extra-cflags="-s USE_ZLIB=1 -I../libvpx/dist/include" \
+		--extra-ldflags="-L../libvpx/dist/lib" \
+		&& \
+	emmake make -j && \
+	cp ffmpeg ffmpeg.bc
 
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
@@ -246,15 +246,15 @@ EMCC_COMMON_ARGS = \
 	--pre-js $(PRE_JS) \
 	-o $@
 
-##ffmpeg-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_SYNC)
-	##emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
-		##--post-js $(POST_JS_SYNC) \
-		##$(EMCC_COMMON_ARGS)
+ffmpeg-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_SYNC)
+	emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
+		--post-js $(POST_JS_SYNC) \
+		$(EMCC_COMMON_ARGS)
 
-##ffmpeg-worker-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_WORKER)
-	##emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
-		##--post-js $(POST_JS_WORKER) \
-		##$(EMCC_COMMON_ARGS)
+ffmpeg-worker-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_WORKER)
+	emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
+		--post-js $(POST_JS_WORKER) \
+		$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
 	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
