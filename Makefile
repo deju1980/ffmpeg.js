@@ -50,14 +50,12 @@ clean-ffmpeg-mp4:
 clean-shine:
 	cd build/shine && git clean -xdf
 	
-build/shine/configure:
-	cd build/shine && ./autogen.sh
-	
-build/shine/dist/lib/libshine.so: build/shine/configure
+build/shine/dist/lib/libshine.so: 
 	cd build/shine && \
 	emconfigure ./configure \
 		--prefix="$$(pwd)/dist" \
-		--disable-shared \
+		--enable-shared \
+		--disable-static \
 		&& \
 	emmake make -j && \
 	emmake make install
