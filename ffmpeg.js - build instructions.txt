@@ -41,5 +41,7 @@ build/lame/dist/lib/libmp3lame.so:
 autoreconf -vfi
 automake
 make clean
-./configure
+./configure --enable-shared --disable-static
 make
+
+-- libshine.so is in shine/.libs/libshine.so
