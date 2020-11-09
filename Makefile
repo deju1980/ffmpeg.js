@@ -78,6 +78,7 @@ build/shine/dist/lib/libshine.so:
 		--disable-static \
 		&& \
 	emmake make -j && \
+	emmake make clean && \
 	emmake make install
 
 build/opus/configure:
