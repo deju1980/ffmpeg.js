@@ -27,7 +27,7 @@ MP4_SHARED_DEPS = \
 	build/x264/dist/lib/libx264.so \
 	build/shine/dist/lib/libshine.so
 
-all: webm mp4
+#all: webm mp4
 #webm: ffmpeg-webm.js ffmpeg-worker-webm.js
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 
