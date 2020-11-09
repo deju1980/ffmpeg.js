@@ -70,7 +70,7 @@ clean-shine:
 build/shine/dist/lib/libshine.so: 
 	cd build/shine && \
 	autoreconf -vfi && \
-	automake &&
+	automake && \
 	EM_PKG_CONFIG_PATH=../shine/dist/lib/pkgconfig emconfigure ./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
