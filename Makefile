@@ -28,7 +28,8 @@ MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
-MP4_SHARED_DEPS = \
+MP4_SHARED_DEPS = 
+	##\
 	##build/lame/dist/lib/libmp3lame.so \
 	##build/x264/dist/lib/libx264.so \
 	##build/shine/dist/lib/libshine.so
