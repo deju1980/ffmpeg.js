@@ -7,8 +7,12 @@ POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
 COMMON_FILTERS = aresample
-COMMON_DEMUXERS = ogg mp3 wav 
-COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le 
+##COMMON_DEMUXERS = ogg mp3 wav 
+##COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le 
+
+COMMON_DEMUXERS = mp3
+COMMON_DECODERS = mp3
+
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
@@ -18,15 +22,17 @@ WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-MP4_MUXERS = ogg mp3 aac flac mp4 ipod
-MP4_ENCODERS = libmp3lame aac flac libshine
+##MP4_MUXERS = ogg mp3 aac flac mp4 ipod
+##MP4_ENCODERS = libmp3lame aac flac libshine
+MP4_MUXERS = mp3
+MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
-	build/lame/dist/lib/libmp3lame.so \
-	build/x264/dist/lib/libx264.so \
+	##build/lame/dist/lib/libmp3lame.so \
+	##build/x264/dist/lib/libx264.so \
+	##build/shine/dist/lib/libshine.so
 	build/shine/dist/lib/libshine.so
-
 ##all: webm mp4
 all: mp4
 ##webm: ffmpeg-webm.js ffmpeg-worker-webm.js
