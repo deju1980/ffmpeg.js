@@ -7,7 +7,7 @@ index 91a714ed..1473b84e 100644
  		GCC_version="`${CC} --version | sed -n '1s/^[[^ ]]* (.*) //;s/ .*$//;1p'`"
  		case "${GCC_version}" in 
 -		[0-9]*[0-9]*)
-+		[[0-9]*[0-9]]*)
++		[[0-9]]*[[0-9]]*)
  			AC_MSG_RESULT(${GCC_version})
  			;;
  		*)
