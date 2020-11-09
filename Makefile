@@ -56,12 +56,12 @@ build/shine/.libs/libshine.so:
 	autoreconf -vfi && \
 	automake && \
 	make clean && \
-	emconfigure ./configure \
+	./configure \
 		--enable-shared \
 		--disable-static \
 		&& \
-	emmake make -j && \
-	emmake make install
+	make && \
+	make install
 
 build/opus/configure:
 	cd build/opus && ./autogen.sh
