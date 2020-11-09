@@ -28,7 +28,7 @@ MP4_SHARED_DEPS = \
 	build/shine/dist/lib/libshine.so
 
 all: webm mp4
-webm: ffmpeg-webm.js ffmpeg-worker-webm.js
+#webm: ffmpeg-webm.js ffmpeg-worker-webm.js
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 
 clean: clean-js \
