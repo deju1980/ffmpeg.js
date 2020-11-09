@@ -28,7 +28,13 @@ MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
-MP4_SHARED_DEPS = build/shine/dist/lib/libshine.so
+MP4_SHARED_DEPS = 
+	\
+	build/shine/dist/lib/libshine.so \
+	build/lame/dist/lib/libmp3lame.so \
+	build/x264/dist/lib/libx264.so 
+	
+	
 	##\
 	##build/lame/dist/lib/libmp3lame.so \
 	##build/x264/dist/lib/libx264.so \
@@ -249,6 +255,11 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
 		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
 		--enable-gpl \
+		--enable-libmp3lame \
+		--enable-libx264 \
+		--enable-libshine \
+		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
+		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
