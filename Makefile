@@ -77,8 +77,8 @@ build/shine/dist/lib/libshine.so:
 		--enable-shared \
 		--disable-static \
 		&& \
-	emmake make -j && \
 	emmake make clean && \
+	emmake make -j && \
 	emmake make install
 
 build/opus/configure:
