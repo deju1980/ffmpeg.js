@@ -25,6 +25,7 @@ FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so
+	build/shine/dist/lib/libshine.so
 
 all: webm mp4
 webm: ffmpeg-webm.js ffmpeg-worker-webm.js
