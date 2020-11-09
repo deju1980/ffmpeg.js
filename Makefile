@@ -55,6 +55,7 @@ build/shine/.libs/libshine.so:
 	cd build/shine && \
 	autoreconf -vfi && \
 	automake && \
+	make clean && \
 	emconfigure ./configure \
 		--enable-shared \
 		--disable-static \
