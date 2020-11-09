@@ -1,6 +1,6 @@
- Compile FFmpeg and all its dependencies to JavaScript.
- You need emsdk environment installed and activated, see:
- <https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>.
+ ##Compile FFmpeg and all its dependencies to JavaScript.
+ ##You need emsdk environment installed and activated, see:
+ ##<https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>.
 
 PRE_JS = build/pre.js
 POST_JS_SYNC = build/post-sync.js
