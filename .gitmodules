@@ -25,3 +25,4 @@
 [submodule "build/shine"]
 	path = build/shine
 	url = https://github.com/toots/shine
+	ignore = dirty
