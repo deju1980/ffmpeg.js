@@ -69,13 +69,14 @@ clean-shine:
 	
 build/shine/dist/lib/libshine.so: 
 	cd build/shine && \
+	autoreconf -vfi && \
 	##make clean && \
 	EM_PKG_CONFIG_PATH=../shine/dist/lib/pkgconfig emconfigure ./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
 		--disable-static \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	emmake make install
 
 build/opus/configure:
