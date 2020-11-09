@@ -71,13 +71,13 @@ build/shine/dist/lib/libshine.so:
 	cd build/shine && \
 	autoreconf -vfi && \
 	##make clean && \
-	EM_PKG_CONFIG_PATH=../shine/dist/lib/pkgconfig emconfigure ./configure \
+	PKG_CONFIG_PATH=../shine/dist/lib/pkgconfig emconfigure ./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
 		--disable-static \
 		&& \
 	make && \
-	emmake make install
+	make install
 
 build/opus/configure:
 	cd build/opus && ./autogen.sh
