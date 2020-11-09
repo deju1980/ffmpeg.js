@@ -53,6 +53,8 @@ clean-shine:
 	
 build/shine/dist/lib/libshine.so: 
 	cd build/shine && \
+	autoreconf -vfi && \
+	automake && \
 	emconfigure ./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
@@ -199,19 +201,19 @@ FFMPEG_COMMON_ARGS = \
 	--disable-xlib \
 	--enable-zlib
 
-build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
-	cd build/ffmpeg-webm && \
-	EM_PKG_CONFIG_PATH=$(FFMPEG_WEBM_PC_PATH) emconfigure ./configure \
-		$(FFMPEG_COMMON_ARGS) \
-		$(addprefix --enable-encoder=,$(WEBM_ENCODERS)) \
-		$(addprefix --enable-muxer=,$(WEBM_MUXERS)) \
-		--enable-libopus \
-		--enable-libvpx \
-		--extra-cflags="-s USE_ZLIB=1 -I../libvpx/dist/include" \
-		--extra-ldflags="-L../libvpx/dist/lib" \
-		&& \
-	emmake make -j && \
-	cp ffmpeg ffmpeg.bc
+##build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
+	##cd build/ffmpeg-webm && \
+	##EM_PKG_CONFIG_PATH=$(FFMPEG_WEBM_PC_PATH) emconfigure ./configure \
+		##$(FFMPEG_COMMON_ARGS) \
+		##$(addprefix --enable-encoder=,$(WEBM_ENCODERS)) \
+		##$(addprefix --enable-muxer=,$(WEBM_MUXERS)) \
+		##--enable-libopus \
+		##--enable-libvpx \
+		##--extra-cflags="-s USE_ZLIB=1 -I../libvpx/dist/include" \
+		##--extra-ldflags="-L../libvpx/dist/lib" \
+		##&& \
+	##emmake make -j && \
+	##cp ffmpeg ffmpeg.bc
 
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
@@ -243,15 +245,15 @@ EMCC_COMMON_ARGS = \
 	--pre-js $(PRE_JS) \
 	-o $@
 
-ffmpeg-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
-		--post-js $(POST_JS_SYNC) \
-		$(EMCC_COMMON_ARGS)
+##ffmpeg-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_SYNC)
+	##emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
+		##--post-js $(POST_JS_SYNC) \
+		##$(EMCC_COMMON_ARGS)
 
-ffmpeg-worker-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
-		--post-js $(POST_JS_WORKER) \
-		$(EMCC_COMMON_ARGS)
+##ffmpeg-worker-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_WORKER)
+	##emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
+		##--post-js $(POST_JS_WORKER) \
+		##$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
 	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
