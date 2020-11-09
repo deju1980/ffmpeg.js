@@ -51,12 +51,11 @@ clean-ffmpeg-mp4:
 clean-shine:
 	cd build/shine && git clean -xdf
 	
-build/shine/dist/lib/libshine.so: 
+build/shine/.libs/libshine.so: 
 	cd build/shine && \
 	autoreconf -vfi && \
 	automake && \
 	emconfigure ./configure \
-		--prefix="$$(pwd)/dist" \
 		--enable-shared \
 		--disable-static \
 		&& \
