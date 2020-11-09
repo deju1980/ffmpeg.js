@@ -76,6 +76,7 @@ build/shine/dist/lib/libshine.so:
 		--enable-shared \
 		--disable-static \
 		&& \
+	make clean && \
 	make && \
 	make install
 
