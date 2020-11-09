@@ -71,7 +71,6 @@ build/shine/dist/lib/libshine.so:
 	cd build/shine && \
 	autoreconf -vfi && \
 	automake && \
-	make clean && \
 	emconfigure ./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
