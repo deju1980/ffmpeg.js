@@ -248,7 +248,7 @@ FFMPEG_COMMON_ARGS = \
 	
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
-	EM_PKG_CONFIG_PATH= $(FFMPEG_MP4_PC_PATH) ./configure \
+	./configure \
 		##$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
 		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
