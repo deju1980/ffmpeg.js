@@ -30,7 +30,7 @@ FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/shine/dist/lib/libshine.so \
-	##build/lame/dist/lib/libmp3lame.so \
+	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so 
 	
 	
