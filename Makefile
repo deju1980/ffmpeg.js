@@ -256,8 +256,8 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--enable-libmp3lame \
 		--enable-libx264 \
 		--enable-libshine \
-		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
-		--extra-ldflags="-L../lame/dist/lib" \
+		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include -I../shine/dist/include"" \
+		--extra-ldflags="-L../lame/dist/lib -L../shine/dist/lib" \
 		&& \
 	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
