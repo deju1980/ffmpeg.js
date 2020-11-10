@@ -27,11 +27,11 @@ WEBM_SHARED_DEPS = \
 MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../shine/dist/lib/pkgconfig:../x264/dist/lib/pkgconfig
+FFMPEG_MP4_PC_PATH = ../shine/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
-	build/shine/dist/lib/libshine.so \
-	build/lame/dist/lib/libmp3lame.so \
-	build/x264/dist/lib/libx264.so 
+	build/shine/dist/lib/libshine.so 
+	##build/lame/dist/lib/libmp3lame.so \
+	##build/x264/dist/lib/libx264.so 
 	
 	
 	##\
@@ -49,7 +49,7 @@ mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 	##clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean: clean-js \
 	clean-opus clean-libvpx \
-	clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
+	clean-lame clean-ffmpeg-mp4 clean-shine
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
@@ -248,16 +248,16 @@ FFMPEG_COMMON_ARGS = \
 	
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
-	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
+	EM_PKG_CONFIG_PATH= ../x264/dist/lib/pkgconfig emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
 		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
-		--enable-gpl \
-		--enable-libmp3lame \
-		--enable-libx264 \
+		##--enable-gpl \
+		##--enable-libmp3lame \
+		##--enable-libx264 \
 		--enable-libshine \
-		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
-		--extra-ldflags="-L../lame/dist/lib" \
+		##--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
+		##--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
