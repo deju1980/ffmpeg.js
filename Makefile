@@ -71,7 +71,7 @@ build/shine/dist/lib/libshine.so:
 	cd build/shine && \
 	autoreconf -vfi && \
 	automake && \
-	./configure \
+	EM_PKG_CONFIG_PATH=../shine/dist/lib/pkgconfig ./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
 		--disable-static \
