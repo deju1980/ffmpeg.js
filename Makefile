@@ -77,7 +77,7 @@ build/shine/dist/lib/libshine.so:
 		--disable-static \
 		&& \
 	make && \
-	install
+	make install
 	
 build/opus/configure:
 	cd build/opus && ./autogen.sh
