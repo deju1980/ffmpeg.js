@@ -17,7 +17,7 @@ COMMON_DECODERS = mp3
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
 FFMPEG_WEBM_BC = build/ffmpeg-webm/ffmpeg.bc
-FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
+FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
@@ -71,7 +71,7 @@ build/shine/dist/lib/libshine.so:
 	cd build/shine && \
 	autoreconf -vfi && \
 	automake && \
-	PKG_CONFIG_PATH=../shine/dist/lib/pkgconfig ./configure \
+	./configure \
 		--prefix="$$(pwd)/dist" \
 		--enable-shared \
 		--disable-static \
