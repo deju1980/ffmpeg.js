@@ -17,7 +17,7 @@ COMMON_DECODERS = mp3
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
 FFMPEG_WEBM_BC = build/ffmpeg-webm/ffmpeg.bc
-FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
+FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
@@ -27,7 +27,7 @@ WEBM_SHARED_DEPS = \
 MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
+FFMPEG_MP4_PC_PATH = ../shine/dist/lib/pkgconfig:../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/shine/dist/lib/libshine.so \
 	build/lame/dist/lib/libmp3lame.so \
