@@ -1,56 +1,90 @@
-# Compile FFmpeg and all its dependencies to JavaScript.
-# You need emsdk environment installed and activated, see:
-# <https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>.
+ ##Compile FFmpeg and all its dependencies to JavaScript.
+ ##You need emsdk environment installed and activated, see:
+ ##<https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>.
 
-COMMON_FILTERS = aresample scale crop overlay hstack vstack
-COMMON_DEMUXERS = matroska ogg mov mp3 wav image2 concat
-COMMON_DECODERS = vp8 h264 vorbis opus mp3 aac pcm_s16le mjpeg png
+PRE_JS = build/pre.js
+POST_JS_SYNC = build/post-sync.js
+POST_JS_WORKER = build/post-worker.js
+
+COMMON_FILTERS = aresample
+##COMMON_DEMUXERS = ogg mp3 wav 
+##COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le 
+
+COMMON_DEMUXERS = mp3
+COMMON_DECODERS = mp3
 
 LIBS = \
-	build/ffmpeg/libavutil/libavutil.a \
-    build/ffmpeg/libavcodec/libavcodec.a \
-    build/ffmpeg/libavfilter/libavfilter.a \
-    build/ffmpeg/libavformat/libavformat.a \
-	build/ffmpeg/libswresample/libswresample.a
+    build/ffmpeg-mp4/libavcodec/libavcodec.a \
+    build/ffmpeg-mp4/libavfilter/libavfilter.a \
+    build/ffmpeg-mp4/libavformat/libavformat.a \
+	build/ffmpeg-mp4/libswresample/libswresample.a
 
-DECODERS = mp3
-FFMPEG = build/ffmpeg/libavcodec/libavcodec.a
 
 WEBM_MUXERS = webm ogg null
-WEBM_ENCODERS = libvpx_vp8 libopus
+WEBM_ENCODERS = libvpx_vp8
 FFMPEG_WEBM_BC = build/ffmpeg-webm/ffmpeg.bc
 FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-MP4_MUXERS = mp4 mp3 null
-MP4_ENCODERS = libx264 libmp3lame aac
+##MP4_MUXERS = ogg mp3 aac flac mp4 ipod
+##MP4_ENCODERS = libmp3lame aac flac libshine
+MP4_MUXERS = mp3
+MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
+FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
+	build/shine/dist/lib/libshine.so \
 	build/lame/dist/lib/libmp3lame.so \
-	build/x264/dist/lib/libx264.so
+	build/x264/dist/lib/libx264.so 
+	
+	
+	##\
+	##build/lame/dist/lib/libmp3lame.so \
+	##build/x264/dist/lib/libx264.so \
+	##build/shine/dist/lib/libshine.so
+	
+##all: webm mp4
+all: mp4
+##webm: ffmpeg-webm.js ffmpeg-worker-webm.js
+mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 
-all: ffmpeg
-ffmpeg: ffmpeg.js
-
+##clean: clean-js \
+	##clean-opus clean-libvpx clean-ffmpeg-webm \
+	##clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean: clean-js \
-	clean-opus clean-libvpx clean-ffmpeg \
-	clean-lame clean-x264
+	clean-opus clean-libvpx \
+	clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
 	cd build/opus && git clean -xdf
 clean-libvpx:
 	cd build/libvpx && git clean -xdf
+##clean-ffmpeg-webm:
+	##cd build/ffmpeg-webm && git clean -xdf
 clean-lame:
 	cd build/lame && git clean -xdf
 clean-x264:
 	cd build/x264 && git clean -xdf
-clean-ffmpeg:
-	cd build/ffmpeg && git clean -xdf
-
+clean-ffmpeg-mp4:
+	cd build/ffmpeg-mp4 && git clean -xdf
+clean-shine:
+	cd build/shine && git clean -xdf
+	
+build/shine/dist/lib/libshine.so: 
+	cd build/shine && \
+	autoreconf -vfi && \
+	automake && \
+	emconfigure ./configure \
+		--prefix="$$(pwd)/dist" \
+		--enable-shared \
+		--disable-static \
+		&& \
+	emmake make -j && \
+	emmake make install
+	
 build/opus/configure:
 	cd build/opus && ./autogen.sh
 
@@ -99,6 +133,7 @@ build/lame/dist/lib/libmp3lame.so:
 	cd build/lame/lame && \
 	git reset --hard && \
 	patch -p2 < ../../lame-fix-ld.patch && \
+	patch -p3 < ../../lame-cc-optimization-fix.patch && \
 	emconfigure ./configure \
 		CFLAGS="-DNDEBUG -O3" \
 		--prefix="$$(pwd)/../dist" \
@@ -138,15 +173,15 @@ build/x264/dist/lib/libx264.so:
 	emmake make -j && \
 	emmake make install
 
-# TODO(Kagami): Emscripten documentation recommends to always use shared
-# libraries but it's not possible in case of ffmpeg because it has
-# multiple declarations of `ff_log2_tab` symbol. GCC builds FFmpeg fine
-# though because it uses version scripts and so `ff_log2_tag` symbols
-# are not exported to the shared libraries. Seems like `emcc` ignores
-# them. We need to file bugreport to upstream. See also:
-# - <https://kripken.github.io/emscripten-site/docs/compiling/Building-Projects.html>
-# - <https://github.com/kripken/emscripten/issues/831>
-# - <https://ffmpeg.org/pipermail/libav-user/2013-February/003698.html>
+##TODO(Kagami): Emscripten documentation recommends to always use shared
+##libraries but it's not possible in case of ffmpeg because it has
+ ##multiple declarations of `ff_log2_tab` symbol. GCC builds FFmpeg fine
+ ##though because it uses version scripts and so `ff_log2_tag` symbols
+ ##are not exported to the shared libraries. Seems like `emcc` ignores
+ ##them. We need to file bugreport to upstream. See also:
+ ##- <https://kripken.github.io/emscripten-site/docs/compiling/Building-Projects.html>
+## - <https://github.com/kripken/emscripten/issues/831>
+ ##- <https://ffmpeg.org/pipermail/libav-user/2013-February/003698.html>
 FFMPEG_COMMON_ARGS = \
 	--cc=emcc \
 	--ranlib=emranlib \
@@ -161,38 +196,109 @@ FFMPEG_COMMON_ARGS = \
 	--disable-os2threads \
 	--disable-debug \
 	--disable-stripping \
-	--disable-programs \
+	--disable-safe-bitstream-reader \
 	\
-    --disable-everything \
-    --disable-network \
-    --disable-autodetect \
-    --enable-small \
-    --enable-decoder=mp3 \
-    --enable-parser=mp3 \
-    --enable-demuxer=mp3 \
-    --enable-protocol=file
+	--disable-all \
+	--enable-ffmpeg \
+	--enable-avcodec \
+	--enable-avformat \
+	--enable-avfilter \
+	--enable-swresample \
+	--enable-swscale \
+	--disable-network \
+	--disable-d3d11va \
+	--disable-dxva2 \
+	--disable-vaapi \
+	--disable-vdpau \
+	$(addprefix --enable-decoder=,$(COMMON_DECODERS)) \
+	$(addprefix --enable-demuxer=,$(COMMON_DEMUXERS)) \
+	--enable-protocol=file \
+	$(addprefix --enable-filter=,$(COMMON_FILTERS)) \
+	--disable-bzlib \
+	--disable-iconv \
+	--disable-libxcb \
+	--disable-lzma \
+	--disable-sdl2 \
+	--disable-securetransport \
+	--disable-xlib \
+	--enable-zlib
 
-build/ffmpeg/libavcodec/libavcodec.a:
-	cd build/ffmpeg && \
-	emconfigure ./configure \
+##build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
+	##cd build/ffmpeg-webm && \
+	##EM_PKG_CONFIG_PATH=$(FFMPEG_WEBM_PC_PATH) emconfigure ./configure \
+		##$(FFMPEG_COMMON_ARGS) \
+		##$(addprefix --enable-encoder=,$(WEBM_ENCODERS)) \
+		##$(addprefix --enable-muxer=,$(WEBM_MUXERS)) \
+		##--enable-libopus \
+		##--enable-libvpx \
+		##--extra-cflags="-s USE_ZLIB=1 -I../libvpx/dist/include" \
+		##--extra-ldflags="-L../libvpx/dist/lib" \
+		#&& \
+	##emmake make -j && \
+	##cp ffmpeg ffmpeg.bc
+
+##build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
+	##cd build/ffmpeg-mp4 && \
+	##EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
+		##$(FFMPEG_COMMON_ARGS) \
+		##$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
+		##$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
+		##--enable-gpl \
+		##--enable-libmp3lame \
+		##--enable-libx264 \
+		##--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
+		##--extra-ldflags="-L../lame/dist/lib" \
+		##&& \
+	##emmake make -j && \
+	##cp ffmpeg ffmpeg.bc
+	
+build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
+	cd ~/ffmpeg.js/build/ffmpeg-mp4 && \
+	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
-		$(addprefix --enable-decoder=,$(DECODERS)) \
+		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
+		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
+		--enable-gpl \
+		--enable-libmp3lame \
+		--enable-libx264 \
+		--enable-libshine \
+		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
+		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
-	emmake make -j
+	emmake make -j && \ 
+	cp ffmpeg ffmpeg.bc
 
 EMCC_COMMON_ARGS = \
+	-O3 \
 	--closure 1 \
-	-Os \
-	-s SINGLE_FILE=1 \
-	-s MODULARIZE=1 \
-	-s EXPORT_ES6=1 \
-	-s USE_ES6_IMPORT_META=0 \
-	-s ENVIRONMENT=web \
-	-s ALLOW_MEMORY_GROWTH=1 \
-    -s MALLOC=emmalloc \
-	-Ibuild/ffmpeg/ \
+	--memory-init-file 0 \
+	-s WASM=0 \
+	-s WASM_ASYNC_COMPILATION=0 \
+	-s ASSERTIONS=0 \
+	-s EXIT_RUNTIME=1 \
+	-s NODEJS_CATCH_EXIT=0 \
+	-s NODEJS_CATCH_REJECTION=0 \
+	-s TOTAL_MEMORY=67108864 \
+	-lnodefs.js -lworkerfs.js \
+	--pre-js $(PRE_JS) \
 	-o $@
 
-ffmpeg.js: $(FFMPEG)
-	emcc --bind $(LIBS) build/bindings.cpp $(EMCC_COMMON_ARGS)
+##ffmpeg-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_SYNC)
+	##emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
+		##--post-js $(POST_JS_SYNC) \
+		##$(EMCC_COMMON_ARGS)
 
+##ffmpeg-worker-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_WORKER)
+	##emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
+		##--post-js $(POST_JS_WORKER) \
+		##$(EMCC_COMMON_ARGS)
+
+ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
+	emcc $(LIBS) $(MP4_SHARED_DEPS) \
+		--post-js $(POST_JS_SYNC) \
+		$(EMCC_COMMON_ARGS) -O2
+
+ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
+	emcc $(LIBS) $(MP4_SHARED_DEPS) \
+		--post-js $(POST_JS_WORKER) \
+		$(EMCC_COMMON_ARGS) -O2
