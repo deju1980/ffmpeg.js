@@ -209,5 +209,7 @@ EMCC_COMMON_ARGS = \
 	-Ibuild/ffmpeg/ \
 	-o $@
 
-ffmpeg.js: $(FFMPEG)
-	emcc --bind $(LIBS) build/bindings.cpp $(EMCC_COMMON_ARGS)
+ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
+	emcc $(LIBS) $(MP4_SHARED_DEPS) \
+		--post-js $(POST_JS_WORKER) \
+		$(EMCC_COMMON_ARGS) -O2
