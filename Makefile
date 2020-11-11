@@ -33,7 +33,7 @@ WEBM_SHARED_DEPS = \
 ##MP4_ENCODERS = libmp3lame aac flac libshine
 MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
-FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
+FFMPEG_MP4_BC = build/ffmpeg/libavcodec/libavcodec.a
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/shine/dist/lib/libshine.so \
@@ -270,7 +270,7 @@ FFMPEG_COMMON_ARGS = \
 	##cp ffmpeg ffmpeg.bc
 	
 	
-build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
+build/ffmpeg/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
@@ -283,8 +283,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
-	emmake make -j && \
-	cp ffmpeg ffmpeg.bc
+	emmake make -j
 
 
 EMCC_COMMON_ARGS = \
@@ -317,10 +316,15 @@ EMCC_COMMON_ARGS = \
 		##--post-js $(POST_JS_SYNC) \
 		##$(EMCC_COMMON_ARGS) -O2
 		
-ffmpeg-mp4.js: $(FFMPEG_MP4_BC)
+##ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
+	##emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
+		##--post-js $(POST_JS_WORKER) \
+		##$(EMCC_COMMON_ARGS) -O2
+
+
+ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
 	emcc --bind $(LIBS) build/bindings.cpp $(EMCC_COMMON_ARGS)
 	
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
-		--post-js $(POST_JS_WORKER) \
-		$(EMCC_COMMON_ARGS) -O2
+	emcc --bind $(LIBS) build/bindings.cpp $(EMCC_COMMON_ARGS) \
+		--post-js $(POST_JS_WORKER) 
