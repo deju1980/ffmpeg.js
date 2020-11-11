@@ -13,6 +13,13 @@ COMMON_FILTERS = aresample
 COMMON_DEMUXERS = mp3
 COMMON_DECODERS = mp3
 
+LIBS = \
+	build/ffmpeg/libavutil/libavutil.a \
+    build/ffmpeg/libavcodec/libavcodec.a \
+    build/ffmpeg/libavfilter/libavfilter.a \
+    build/ffmpeg/libavformat/libavformat.a \
+	build/ffmpeg/libswresample/libswresample.a
+
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
@@ -246,6 +253,23 @@ FFMPEG_COMMON_ARGS = \
 	##emmake make -j && \
 	##cp ffmpeg ffmpeg.bc
 	
+##build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
+	##cd build/ffmpeg-mp4 && \
+	##EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
+		##$(FFMPEG_COMMON_ARGS) \
+		##$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
+		##$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
+		##--enable-gpl \
+		##--enable-libmp3lame \
+		##--enable-libx264 \
+		##--enable-libshine \
+		##--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
+		##--extra-ldflags="-L../lame/dist/lib" \
+		##&& \
+	##emmake make -j && \
+	##cp ffmpeg ffmpeg.bc
+	
+	
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
@@ -261,6 +285,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		&& \
 	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
+
 
 EMCC_COMMON_ARGS = \
 	-O3 \
@@ -287,11 +312,14 @@ EMCC_COMMON_ARGS = \
 		##--post-js $(POST_JS_WORKER) \
 		##$(EMCC_COMMON_ARGS)
 
-ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
-		--post-js $(POST_JS_SYNC) \
-		$(EMCC_COMMON_ARGS) -O2
-
+##ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
+	##emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
+		##--post-js $(POST_JS_SYNC) \
+		##$(EMCC_COMMON_ARGS) -O2
+		
+ffmpeg-mp4.js: $(FFMPEG_MP4_BC)
+	emcc --bind $(LIBS) build/bindings.cpp $(EMCC_COMMON_ARGS)
+	
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
 	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
