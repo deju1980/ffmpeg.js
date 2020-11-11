@@ -27,9 +27,9 @@ WEBM_SHARED_DEPS = \
 MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/.libs/pkgconfig/pkgconfig
+FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
-	build/shine/.libs/libshine.so \
+	build/shine/dist/lib/libshine.so \
 	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so 
 	
