@@ -7,11 +7,11 @@ COMMON_DEMUXERS = matroska ogg mov mp3 wav image2 concat
 COMMON_DECODERS = vp8 h264 vorbis opus mp3 aac pcm_s16le mjpeg png
 
 LIBS = \
-	build/ffmpeg/libavutil/libavutil.a \
-    build/ffmpeg/libavcodec/libavcodec.a \
-    build/ffmpeg/libavfilter/libavfilter.a \
-    build/ffmpeg/libavformat/libavformat.a \
-	build/ffmpeg/libswresample/libswresample.a
+	build/ffmpeg-mp4/libavutil/libavutil.a \
+    build/ffmpeg-mp4/libavcodec/libavcodec.a \
+    build/ffmpeg-mp4/libavfilter/libavfilter.a \
+    build/ffmpeg-mp4/libavformat/libavformat.a \
+	build/ffmpeg-mp4/libswresample/libswresample.a
 
 DECODERS = mp3
 FFMPEG = build/ffmpeg-mp4/ffmpeg.bc
