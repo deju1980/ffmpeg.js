@@ -163,14 +163,30 @@ FFMPEG_COMMON_ARGS = \
 	--disable-stripping \
 	--disable-programs \
 	\
-    --disable-everything \
-    --disable-network \
-    --disable-autodetect \
-    --enable-small \
-    --enable-decoder=mp3 \
-    --enable-parser=mp3 \
-    --enable-demuxer=mp3 \
-    --enable-protocol=file
+	--disable-all \
+	--enable-ffmpeg \
+	--enable-avcodec \
+	--enable-avformat \
+	--enable-avfilter \
+	--enable-swresample \
+	--enable-swscale \
+	--disable-network \
+	--disable-d3d11va \
+	--disable-dxva2 \
+	--disable-vaapi \
+	--disable-vdpau \
+	$(addprefix --enable-decoder=,$(COMMON_DECODERS)) \
+	$(addprefix --enable-demuxer=,$(COMMON_DEMUXERS)) \
+	--enable-protocol=file \
+	$(addprefix --enable-filter=,$(COMMON_FILTERS)) \
+	--disable-bzlib \
+	--disable-iconv \
+	--disable-libxcb \
+	--disable-lzma \
+	--disable-sdl2 \
+	--disable-securetransport \
+	--disable-xlib \
+	--enable-zlib
 
 build/ffmpeg-mp4/ffmpeg.bc:
 	cd build/ffmpeg-mp4 && \
