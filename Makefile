@@ -7,22 +7,8 @@ POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
 COMMON_FILTERS = aresample
-##COMMON_DEMUXERS = ogg mp3 wav 
-##COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le 
-
-COMMON_DEMUXERS = mp3
-COMMON_DECODERS = mp3
-
-LIBS = \
-	build/ffmpeg-mp4/libavcodec/libpostproc.a \
-	build/ffmpeg-mp4/libavcodec/libswscale.a \
-    build/ffmpeg-mp4/libavcodec/libavcodec.a \
-    build/ffmpeg-mp4/libavfilter/libavfilter.a \
-	build/ffmpeg-mp4/libavformat/libavdevice.a \
-    build/ffmpeg-mp4/libavformat/libavformat.a \
-    build/ffmpeg-mp4/libavformat/libavutil.a \
-	build/ffmpeg-mp4/libswresample/libswresample.a
-
+COMMON_DEMUXERS = ogg mp3 wav 
+COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le 
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
@@ -32,34 +18,21 @@ WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-##MP4_MUXERS = ogg mp3 aac flac mp4 ipod
-##MP4_ENCODERS = libmp3lame aac flac libshine
-MP4_MUXERS = mp3
-MP4_ENCODERS = libshine
+MP4_MUXERS = ogg mp3 aac flac mp4 ipod
+MP4_ENCODERS = libmp3lame aac flac 
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
+FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
-	build/shine/dist/lib/libshine.so \
 	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so 
-	
-	
-	##\
-	##build/lame/dist/lib/libmp3lame.so \
-	##build/x264/dist/lib/libx264.so \
-	##build/shine/dist/lib/libshine.so
 	
 ##all: webm mp4
 all: mp4
 ##webm: ffmpeg-webm.js ffmpeg-worker-webm.js
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
-
-##clean: clean-js \
-	##clean-opus clean-libvpx clean-ffmpeg-webm \
-	##clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean: clean-js \
-	clean-opus clean-libvpx \
-	clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
+	clean-opus clean-libvpx clean-ffmpeg-webm \
+	clean-lame clean-x264 clean-ffmpeg-mp4
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
@@ -74,21 +47,6 @@ clean-x264:
 	cd build/x264 && git clean -xdf
 clean-ffmpeg-mp4:
 	cd build/ffmpeg-mp4 && git clean -xdf
-clean-shine:
-	cd build/shine && git clean -xdf
-	
-build/shine/dist/lib/libshine.so: 
-	cd build/shine && \
-	autoreconf -vfi && \
-	automake && \
-	emconfigure ./configure \
-		--prefix="$$(pwd)/dist" \
-		--enable-shared \
-		--disable-static \
-		&& \
-	emmake make -j && \
-	emmake make install
-	
 build/opus/configure:
 	cd build/opus && ./autogen.sh
 
@@ -241,21 +199,6 @@ FFMPEG_COMMON_ARGS = \
 	##emmake make -j && \
 	##cp ffmpeg ffmpeg.bc
 
-##build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
-	##cd build/ffmpeg-mp4 && \
-	##EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
-		##$(FFMPEG_COMMON_ARGS) \
-		##$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
-		##$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
-		##--enable-gpl \
-		##--enable-libmp3lame \
-		##--enable-libx264 \
-		##--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
-		##--extra-ldflags="-L../lame/dist/lib" \
-		##&& \
-	##emmake make -j && \
-	##cp ffmpeg ffmpeg.bc
-	
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
@@ -265,13 +208,12 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--enable-gpl \
 		--enable-libmp3lame \
 		--enable-libx264 \
-		--enable-libshine \
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
-	emmake make -j && \ 
+	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
-
+	
 EMCC_COMMON_ARGS = \
 	-O3 \
 	--closure 1 \
@@ -298,11 +240,11 @@ EMCC_COMMON_ARGS = \
 		##$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
 		$(EMCC_COMMON_ARGS) -O2
 
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
 		$(EMCC_COMMON_ARGS) -O2
