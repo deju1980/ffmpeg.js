@@ -27,9 +27,9 @@ WEBM_SHARED_DEPS = \
 MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
+FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/.libs/pkgconfig/pkgconfig
 MP4_SHARED_DEPS = \
-	build/shine/dist/lib/libshine.so \
+	build/shine/.libs/libshine.so \
 	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so 
 	
@@ -49,7 +49,7 @@ mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 	##clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean: clean-js \
 	clean-opus clean-libvpx \
-	clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
+	clean-lame clean-x264 clean-ffmpeg-mp4
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
@@ -67,17 +67,17 @@ clean-ffmpeg-mp4:
 clean-shine:
 	cd build/shine && git clean -xdf
 	
-build/shine/dist/lib/libshine.so: 
-	cd build/shine && \
-	autoreconf -vfi && \
-	automake && \
-	emconfigure ./configure \
-		--prefix="$$(pwd)/dist" \
-		--enable-shared \
-		--disable-static \
-		&& \
-	emmake make -j && \
-	emmake make install
+##build/shine/dist/lib/libshine.so: 
+	##cd build/shine && \
+	##autoreconf -vfi && \
+	##automake && \
+	##emconfigure ./configure \
+		##--prefix="$$(pwd)/dist" \
+		##--enable-shared \
+		##--disable-static \
+		##&& \
+	##emmake make -j && \
+	##emmake make install
 	
 build/opus/configure:
 	cd build/opus && ./autogen.sh
