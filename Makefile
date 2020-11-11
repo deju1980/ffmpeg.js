@@ -14,7 +14,7 @@ LIBS = \
 	build/ffmpeg/libswresample/libswresample.a
 
 DECODERS = mp3
-FFMPEG = build/ffmpeg/libavcodec/libavcodec.a
+FFMPEG = build/ffmpeg-mp4/ffmpeg.bc
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8 libopus
@@ -172,7 +172,7 @@ FFMPEG_COMMON_ARGS = \
     --enable-demuxer=mp3 \
     --enable-protocol=file
 
-build/ffmpeg/libavcodec/libavcodec.a:
+build/ffmpeg-mp4/ffmpeg.bc:
 	cd build/ffmpeg-mp4 && \
 	emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
