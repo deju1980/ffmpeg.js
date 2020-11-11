@@ -257,6 +257,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	git checkout tags/1.39.13 && \
 	./emsdk install latest && \
 	./emsdk activate latest && \
+	cd ~/ffmpeg.js && \
 	source emsdk_env.sh && \
 	cd ~/ffmpeg.js/build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
