@@ -14,9 +14,13 @@ COMMON_DEMUXERS = mp3
 COMMON_DECODERS = mp3
 
 LIBS = \
+	build/ffmpeg-mp4/libavcodec/libpostproc.a \
+	build/ffmpeg-mp4/libavcodec/libswscale.a \
     build/ffmpeg-mp4/libavcodec/libavcodec.a \
     build/ffmpeg-mp4/libavfilter/libavfilter.a \
+	build/ffmpeg-mp4/libavformat/libavdevice.a \
     build/ffmpeg-mp4/libavformat/libavformat.a \
+    build/ffmpeg-mp4/libavformat/libavutil.a \
 	build/ffmpeg-mp4/libswresample/libswresample.a
 
 
