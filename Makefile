@@ -14,7 +14,6 @@ COMMON_DEMUXERS = mp3
 COMMON_DECODERS = mp3
 
 LIBS = \
-	build/ffmpeg/libavutil/libavutil.a \
     build/ffmpeg/libavcodec/libavcodec.a \
     build/ffmpeg/libavfilter/libavfilter.a \
     build/ffmpeg/libavformat/libavformat.a \
@@ -205,7 +204,7 @@ FFMPEG_COMMON_ARGS = \
 	--enable-avformat \
 	--enable-avfilter \
 	--enable-swresample \
-	--enable-swscale \
+	##--enable-swscale \
 	--disable-network \
 	--disable-d3d11va \
 	--disable-dxva2 \

@@ -8,21 +8,6 @@ cd ~
 git clone https://github.com/emscripten-core/emsdk.git
 cd ~/emsdk
 
----- Manually build Shine library (if not already built and installed)
--- Install latest version of Emscripten - doesn't work with earlier version of emscripten
-git checkout tags/2.0.8
-./emsdk install latest
-./emsdk activate latest
-source emsdk_env.sh
-
--- Build Shine
-cd ~/ffmpeg.js/build/shine
-autoreconf -vfi
-automake
-emconfigure ./configure --prefix="$(pwd)/dist" --enable-shared --disable-static
-emmake make -j
-emmake install
-
 -- ffmpeg doesn't work with later version of emscripten (2.0.8 is latest)
 cd ~/emsdk
 git checkout tags/1.39.13
@@ -64,3 +49,8 @@ make clean
 make
 
 -- libshine.so is in shine/.libs/libshine.so
+
+-- links to help with ffmpeg and later version on emscripten build:
+https://github.com/Kagami/ffmpeg.js/issues/127
+https://github.com/robert-w-gries/ffmpeg.js/blob/4118754ceaf81ec59f93e389470b4151b7024f5f/Makefile
+https://github.com/mdhsl/ffmpeg.js/commit/945db94a41941f1745b6f6792b4a7157d83b969f
