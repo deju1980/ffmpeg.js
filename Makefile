@@ -76,7 +76,7 @@ build/shine/dist/lib/libshine.so:
 		##--prefix="$$(pwd)/dist" \
 		##--enable-shared \
 		##--disable-static \
-		&& \
+		##&& \
 	emmake make -j && \
 	emmake make install
 	
