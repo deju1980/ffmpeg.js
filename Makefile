@@ -293,12 +293,12 @@ EMCC_COMMON_ARGS = \
 		##--post-js $(POST_JS_WORKER) \
 		##$(EMCC_COMMON_ARGS)
 
-ffmpeg-mp4.js: $(LIBS) $(PRE_JS) $(POST_JS_SYNC)
+ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(LIBS) $(PRE_JS) $(POST_JS_SYNC)
 	emcc $(LIBS) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
 		$(EMCC_COMMON_ARGS) -O2
 
-ffmpeg-worker-mp4.js: $(LIBS) $(PRE_JS) $(POST_JS_WORKER)
+ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(LIBS) $(PRE_JS) $(POST_JS_WORKER)
 	emcc $(LIBS) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
 		$(EMCC_COMMON_ARGS) -O2
