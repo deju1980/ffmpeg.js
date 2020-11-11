@@ -27,7 +27,7 @@ WEBM_SHARED_DEPS = \
 MP4_MUXERS = mp3
 MP4_ENCODERS = libshine
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
+FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig:../shine/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/shine/dist/lib/libshine.so \
 	build/lame/dist/lib/libmp3lame.so \
@@ -256,8 +256,8 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--enable-libmp3lame \
 		--enable-libx264 \
 		--enable-libshine \
-		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include -I../shine/dist/include" \
-		--extra-ldflags="-L../lame/dist/lib -L../shine/dist/lib" \
+		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
+		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
