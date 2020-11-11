@@ -257,7 +257,7 @@ FFMPEG_COMMON_ARGS = \
 	##cp ffmpeg ffmpeg.bc
 	
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
-	cd ~/ffmpeg.js/build/ffmpeg-mp4 && \
+	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
