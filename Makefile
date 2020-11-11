@@ -173,7 +173,7 @@ FFMPEG_COMMON_ARGS = \
     --enable-protocol=file
 
 build/ffmpeg/libavcodec/libavcodec.a:
-	cd build/ffmpeg.js && \
+	cd build/ffmpeg-mp4 && \
 	emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-decoder=,$(DECODERS)) \
