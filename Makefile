@@ -33,7 +33,7 @@ MP4_SHARED_DEPS = \
 	build/x264/dist/lib/libx264.so
 
 all: ffmpeg
-ffmpeg: ffmpeg.js
+ffmpeg-worker-mp4: ffmpeg-worker-mp4.js
 
 clean: clean-js \
 	clean-opus clean-libvpx clean-ffmpeg \
@@ -210,6 +210,6 @@ EMCC_COMMON_ARGS = \
 	-o $@
 
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
 		$(EMCC_COMMON_ARGS) -O2
