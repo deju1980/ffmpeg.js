@@ -72,6 +72,7 @@ build/shine/dist/lib/libshine.so:
 	git checkout tags/2.0.8 && \
 	./emsdk install latest && \
 	./emsdk activate latest && \
+	cd ~/ffmpeg.js && \
 	source emsdk_env.sh && \
 	cd ~/ffmpeg.js/build/shine && \
 	autoreconf -vfi && \
