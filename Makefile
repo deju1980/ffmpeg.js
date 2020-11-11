@@ -68,7 +68,12 @@ clean-shine:
 	cd build/shine && git clean -xdf
 	
 build/shine/dist/lib/libshine.so: 
-	cd build/shine && \
+	cd ~/emsdk && \
+	git checkout tags/2.0.8 && \
+	./emsdk install latest && \
+	./emsdk activate latest && \
+	source emsdk_env.sh && \
+	cd ~/ffmpeg.js/build/shine && \
 	autoreconf -vfi && \
 	automake && \
 	emconfigure ./configure \
@@ -247,7 +252,12 @@ FFMPEG_COMMON_ARGS = \
 	##cp ffmpeg ffmpeg.bc
 	
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
-	cd build/ffmpeg-mp4 && \
+    cd ~/emsdk && \
+	git checkout tags/1.39.13 && \
+	./emsdk install latest && \
+	./emsdk activate latest && \
+	source emsdk_env.sh && \
+	cd ~/ffmpeg.js/build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
