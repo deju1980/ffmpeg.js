@@ -5,8 +5,26 @@ sudo apt-get update
 sudo apt-get install -y git python build-essential automake libtool pkg-config
 
 cd ~
-git clone https://github.com/emscripten-core/emsdk.git && cd emsdk
--- Doesn't work with later version of emscripten (2.0.8 is latest)
+git clone https://github.com/emscripten-core/emsdk.git
+cd ~/emsdk
+
+---- Manually build Shine library (if not already built and installed)
+-- Install latest version of Emscripten - doesn't work with earlier version of emscripten
+git checkout tags/2.0.8
+./emsdk install latest
+./emsdk activate latest
+source emsdk_env.sh
+
+-- Build Shine
+cd ~/ffmpeg.js/build/shine
+autoreconf -vfi
+automake
+emconfigure ./configure --prefix="$(pwd)/dist" --enable-shared --disable-static
+emmake make -j
+emmake install
+
+-- ffmpeg doesn't work with later version of emscripten (2.0.8 is latest)
+cd ~/emsdk
 git checkout tags/1.39.13
 ./emsdk install latest
 ./emsdk activate latest
@@ -14,6 +32,7 @@ source emsdk_env.sh
 
 cd ~
 git clone https://github.com/deju1980/ffmpeg.js.git --recurse-submodules && cd ffmpeg.js
+-- git pull if updating
 make
 
 

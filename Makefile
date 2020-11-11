@@ -49,7 +49,7 @@ mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 	##clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean: clean-js \
 	clean-opus clean-libvpx \
-	clean-lame clean-x264 clean-ffmpeg-mp4
+	clean-lame clean-x264 clean-ffmpeg-mp4 clean-shine
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
@@ -67,17 +67,17 @@ clean-ffmpeg-mp4:
 clean-shine:
 	cd build/shine && git clean -xdf
 	
-##build/shine/dist/lib/libshine.so: 
-	##cd build/shine && \
-	##autoreconf -vfi && \
-	##automake && \
-	##emconfigure ./configure \
-		##--prefix="$$(pwd)/dist" \
-		##--enable-shared \
-		##--disable-static \
-		##&& \
-	##emmake make -j && \
-	##emmake make install
+build/shine/dist/lib/libshine.so: 
+	cd build/shine && \
+	autoreconf -vfi && \
+	automake && \
+	emconfigure ./configure \
+		--prefix="$$(pwd)/dist" \
+		--enable-shared \
+		--disable-static \
+		&& \
+	emmake make -j && \
+	emmake make install
 	
 build/opus/configure:
 	cd build/opus && ./autogen.sh
