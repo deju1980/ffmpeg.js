@@ -247,7 +247,7 @@ EMCC_COMMON_ARGS = \
 		##$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(FFMPEG_MP4_BC) (LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
 		$(EMCC_COMMON_ARGS) -O2
 
