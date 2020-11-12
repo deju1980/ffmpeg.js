@@ -218,7 +218,7 @@ build/ffmpeg-mp4/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
-	##emmake make -j && \
+	emmake make -j && \
 	##cp ffmpeg ffmpeg.bc
 	
 EMCC_COMMON_ARGS = \
