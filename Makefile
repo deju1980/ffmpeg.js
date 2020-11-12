@@ -12,7 +12,7 @@ COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
-FFMPEG_WEBM_BC = build/ffmpeg-mp4/ffmpeg.js.bc
+FFMPEG_WEBM_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
@@ -20,7 +20,7 @@ WEBM_SHARED_DEPS = \
 
 MP4_MUXERS = ogg mp3 aac flac mp4 ipod
 MP4_ENCODERS = libmp3lame aac flac 
-FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.js.bc
+FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
@@ -192,7 +192,7 @@ FFMPEG_COMMON_ARGS = \
 	--disable-xlib \
 	--enable-zlib
 
-##build/ffmpeg-webm/ffmpeg.js.bc: $(WEBM_SHARED_DEPS)
+##build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
 	##cd build/ffmpeg-webm && \
 	##EM_PKG_CONFIG_PATH=$(FFMPEG_WEBM_PC_PATH) emconfigure ./configure \
 		##$(FFMPEG_COMMON_ARGS) \
@@ -204,9 +204,9 @@ FFMPEG_COMMON_ARGS = \
 		##--extra-ldflags="-L../libvpx/dist/lib" \
 		#&& \
 	##emmake make -j && \
-	##cp ffmpeg ffmpeg.js.bc
+	##cp ffmpeg ffmpeg.bc
 
-build/ffmpeg-mp4/ffmpeg.js.bc: $(MP4_SHARED_DEPS)
+build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
@@ -219,7 +219,7 @@ build/ffmpeg-mp4/ffmpeg.js.bc: $(MP4_SHARED_DEPS)
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
-	cp ffmpeg ffmpeg.js.bc
+	cp ffmpeg.js ffmpeg.bc
 	
 EMCC_COMMON_ARGS = \
 	-O3 \
@@ -248,11 +248,11 @@ EMCC_COMMON_ARGS = \
 		##$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(LIBS) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
 		$(EMCC_COMMON_ARGS) -O2
 
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(LIBS) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
 		$(EMCC_COMMON_ARGS) -O2
