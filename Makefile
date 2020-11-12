@@ -219,7 +219,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
-	cp ffmpeg ffmpeg.bc
+	##cp ffmpeg ffmpeg.bc
 	
 EMCC_COMMON_ARGS = \
 	-O3 \
