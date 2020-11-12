@@ -219,7 +219,7 @@ build/ffmpeg-mp4/ffmpeg.js.bc: $(MP4_SHARED_DEPS)
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
-	##cp ffmpeg ffmpeg.js.bc
+	cp ffmpeg ffmpeg.js.bc
 	
 EMCC_COMMON_ARGS = \
 	-O3 \
@@ -248,11 +248,11 @@ EMCC_COMMON_ARGS = \
 		##$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(FFMPEG_MP4_BC) $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
 		$(EMCC_COMMON_ARGS) -O2
 
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(FFMPEG_MP4_BC) $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
 		$(EMCC_COMMON_ARGS) -O2
