@@ -206,7 +206,7 @@ FFMPEG_COMMON_ARGS = \
 	##emmake make -j && \
 	##cp ffmpeg ffmpeg.bc
 
-build/ffmpeg/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
+build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
@@ -220,7 +220,7 @@ build/ffmpeg/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
 		&& \
 	emmake make -j && \
 	cp ffmpeg ffmpeg.bc
-
+	
 EMCC_COMMON_ARGS = \
 	-O3 \
 	--closure 1 \
