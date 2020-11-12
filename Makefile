@@ -31,7 +31,7 @@ LIBS = \
 	build/ffmpeg-mp4/libavformat/libavformat.a \
 	build/ffmpeg-mp4/libavfilter/libavfilter.a \
 	build/ffmpeg-mp4/libswresample/libswresample.a \
-	build/ffmpeg-mp4/libavutil/libswscale.a \
+	build/ffmpeg-mp4/libswscale/libswscale.a \
 
 ##all: webm mp4
 all: mp4
