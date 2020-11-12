@@ -232,6 +232,7 @@ EMCC_COMMON_ARGS = \
 	-s NODEJS_CATCH_EXIT=0 \
 	-s NODEJS_CATCH_REJECTION=0 \
 	-s TOTAL_MEMORY=67108864 \
+	-s ENVIRONMENT=web \
 	-lnodefs.js -lworkerfs.js \
 	--pre-js $(PRE_JS) \
 	-o $@
