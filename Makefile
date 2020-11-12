@@ -12,7 +12,7 @@ COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
-FFMPEG_WEBM_BC = build/ffmpeg-mp4/ffmpeg.bc
+FFMPEG_WEBM_BC = build/ffmpeg-webm/ffmpeg.bc
 FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
@@ -26,19 +26,12 @@ MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so 
 	
-LIBS = \
-	build/ffmpeg-mp4/libswscale/libswscale.a \
-    build/ffmpeg-mp4/libavcodec/libavcodec.a \
-    build/ffmpeg-mp4/libavfilter/libavfilter.a \
-    build/ffmpeg-mp4/libavformat/libavformat.a \
-	build/ffmpeg-mp4/libswresample/libswresample.a
-	
 ##all: webm mp4
 all: mp4
 ##webm: ffmpeg-webm.js ffmpeg-worker-webm.js
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 clean: clean-js \
-	clean-opus clean-libvpx \
+	clean-opus clean-libvpx clean-ffmpeg-webm \
 	clean-lame clean-x264 clean-ffmpeg-mp4
 clean-js:
 	rm -f ffmpeg*.js
@@ -219,7 +212,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
-	cp ffmpeg.js ffmpeg.bc
+	cp ffmpeg ffmpeg.bc
 	
 EMCC_COMMON_ARGS = \
 	-O3 \
@@ -232,7 +225,6 @@ EMCC_COMMON_ARGS = \
 	-s NODEJS_CATCH_EXIT=0 \
 	-s NODEJS_CATCH_REJECTION=0 \
 	-s TOTAL_MEMORY=67108864 \
-	-s ENVIRONMENT=web \
 	-lnodefs.js -lworkerfs.js \
 	--pre-js $(PRE_JS) \
 	-o $@
