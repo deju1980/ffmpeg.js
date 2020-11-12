@@ -20,7 +20,7 @@ WEBM_SHARED_DEPS = \
 
 MP4_MUXERS = ogg mp3 aac flac mp4 ipod
 MP4_ENCODERS = libmp3lame aac flac 
-FFMPEG_MP4_BC = build/ffmpeg-mp4/libavcodec/libavcodec.a
+FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
@@ -206,7 +206,7 @@ FFMPEG_COMMON_ARGS = \
 	##emmake make -j && \
 	##cp ffmpeg ffmpeg.bc
 
-build/ffmpeg-mp4/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
+build/ffmpeg/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
@@ -219,6 +219,7 @@ build/ffmpeg-mp4/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
 	emmake make -j && \
+	cp ffmpeg ffmpeg.bc
 
 EMCC_COMMON_ARGS = \
 	-O3 \
