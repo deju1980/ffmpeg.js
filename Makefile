@@ -12,7 +12,7 @@ COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
-FFMPEG_WEBM_BC = build/ffmpeg-webm/ffmpeg.bc
+FFMPEG_WEBM_BC = build/ffmpeg-mp4/libavcodec/libavcodec.a
 FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
@@ -206,7 +206,7 @@ FFMPEG_COMMON_ARGS = \
 	##emmake make -j && \
 	##cp ffmpeg ffmpeg.bc
 
-build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
+build/ffmpeg-mp4/libavcodec/libavcodec.a: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
 	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
@@ -218,8 +218,8 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
-	emmake make -j && \
-	cp ffmpeg ffmpeg.bc
+	##emmake make -j && \
+	##cp ffmpeg ffmpeg.bc
 	
 EMCC_COMMON_ARGS = \
 	-O3 \
