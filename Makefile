@@ -12,7 +12,7 @@ COMMON_DECODERS = vorbis mp3 aac flac pcm_s16le
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8
-FFMPEG_WEBM_BC = build/ffmpeg-mp4/libavcodec/libavcodec.a
+FFMPEG_WEBM_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_WEBM_PC_PATH = ../opus/dist/lib/pkgconfig
 WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
@@ -20,7 +20,7 @@ WEBM_SHARED_DEPS = \
 
 MP4_MUXERS = ogg mp3 aac flac mp4 ipod
 MP4_ENCODERS = libmp3lame aac flac 
-FFMPEG_MP4_BC = build/ffmpeg-mp4/libavcodec/libavcodec.a
+FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
