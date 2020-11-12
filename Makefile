@@ -25,14 +25,7 @@ FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
 	build/lame/dist/lib/libmp3lame.so \
 	build/x264/dist/lib/libx264.so 
-
-LIBS = \
-	build/ffmpeg-mp4/libavcodec/libavcodec.a \
-	build/ffmpeg-mp4/libavformat/libavformat.a \
-	build/ffmpeg-mp4/libavfilter/libavfilter.a \
-	build/ffmpeg-mp4/libswresample/libswresample.a \
-	build/ffmpeg-mp4/libswscale/libswscale.a \
-
+	
 ##all: webm mp4
 all: mp4
 ##webm: ffmpeg-webm.js ffmpeg-worker-webm.js
@@ -232,7 +225,6 @@ EMCC_COMMON_ARGS = \
 	-s NODEJS_CATCH_EXIT=0 \
 	-s NODEJS_CATCH_REJECTION=0 \
 	-s TOTAL_MEMORY=67108864 \
-	-s ENVIRONMENT=web \
 	-lnodefs.js -lworkerfs.js \
 	--pre-js $(PRE_JS) \
 	-o $@
@@ -248,11 +240,11 @@ EMCC_COMMON_ARGS = \
 		##$(EMCC_COMMON_ARGS)
 
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
-	emcc $(FFMPEG_MP4_BC) $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
 		$(EMCC_COMMON_ARGS) -O2
 
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
-	emcc $(FFMPEG_MP4_BC) $(LIBS) $(MP4_SHARED_DEPS) \
+	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
 		$(EMCC_COMMON_ARGS) -O2
