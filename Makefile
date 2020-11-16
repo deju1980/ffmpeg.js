@@ -112,30 +112,30 @@ build/lame/dist/lib/libmp3lame.so:
 	emmake make -j && \
 	emmake make install
 
-##build/x264/dist/lib/libx264.so:
-	##cd build/x264 && \
-	##emconfigure ./configure \
-		##--prefix="$$(pwd)/dist" \
-		##--extra-cflags="-Wno-unknown-warning-option" \
-		##--host=x86-none-linux \
-		##--disable-cli \
-		##--enable-shared \
-		##--disable-opencl \
-		#--disable-thread \
-		##--disable-interlaced \
-		#--bit-depth=8 \
-		##--chroma-format=420 \
-		##--disable-asm \
-		##\
-		##--disable-avs \
-		#--disable-swscale \
-		##--disable-lavf \
-		##--disable-ffms \
-		##--disable-gpac \
-		##--disable-lsmash \
-		##&& \
-	##emmake make -j && \
-	##emmake make install
+build/x264/dist/lib/libx264.so:
+	cd build/x264 && \
+	emconfigure ./configure \
+		--prefix="$$(pwd)/dist" \
+		--extra-cflags="-Wno-unknown-warning-option" \
+		--host=x86-none-linux \
+		--disable-cli \
+		--enable-shared \
+		--disable-opencl \
+		--disable-thread \
+		--disable-interlaced \
+		--bit-depth=8 \
+		--chroma-format=420 \
+		--disable-asm \
+		\
+		--disable-avs \
+		--disable-swscale \
+		--disable-lavf \
+		--disable-ffms \
+		--disable-gpac \
+		--disable-lsmash \
+		&& \
+	emmake make -j && \
+	emmake make install
 
 ##TODO(Kagami): Emscripten documentation recommends to always use shared
 ##libraries but it's not possible in case of ffmpeg because it has
@@ -203,8 +203,7 @@ FFMPEG_COMMON_ARGS = \
 
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
-	##EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
-		emconfigure ./configure \
+	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
 		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
