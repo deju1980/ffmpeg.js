@@ -164,7 +164,7 @@ FFMPEG_COMMON_ARGS = \
 	--enable-ffmpeg \
 	--enable-avcodec \
 	--enable-avformat \
-	##--enable-avfilter \
+	--enable-avfilter \
 	--enable-swresample \
 	##--enable-swscale \
 	--disable-network \
