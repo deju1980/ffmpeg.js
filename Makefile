@@ -39,8 +39,8 @@ clean-opus:
 	cd build/opus && git clean -xdf
 clean-libvpx:
 	cd build/libvpx && git clean -xdf
-clean-ffmpeg-webm:
-	cd build/ffmpeg-webm && git clean -xdf
+##clean-ffmpeg-webm:
+	##cd build/ffmpeg-webm && git clean -xdf
 clean-lame:
 	cd build/lame && git clean -xdf
 clean-x264:
@@ -164,9 +164,9 @@ FFMPEG_COMMON_ARGS = \
 	--enable-ffmpeg \
 	--enable-avcodec \
 	--enable-avformat \
-	##--enable-avfilter \
+	--enable-avfilter \
 	--enable-swresample \
-	##--enable-swscale \
+	--enable-swscale \
 	--disable-network \
 	--disable-d3d11va \
 	--disable-dxva2 \
