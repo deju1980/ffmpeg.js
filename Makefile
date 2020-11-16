@@ -18,7 +18,7 @@ WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-MP4_MUXERS = ogg mp3 aac flac mp4 ipod
+MP4_MUXERS = ogg mp3 aac flac mp4 ipod m4r
 MP4_ENCODERS = libmp3lame aac flac 
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
@@ -207,7 +207,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
 		--enable-gpl \
 		--enable-libmp3lame \
-		##--enable-libx264 \
+		--enable-libx264 \
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
