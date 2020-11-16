@@ -21,10 +21,11 @@ WEBM_SHARED_DEPS = \
 MP4_MUXERS = ogg mp3 aac flac mp4 ipod
 MP4_ENCODERS = libmp3lame aac flac 
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
-FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
+##FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
-	build/lame/dist/lib/libmp3lame.so \
-	build/x264/dist/lib/libx264.so 
+	build/lame/dist/lib/libmp3lame.so
+	##build/lame/dist/lib/libmp3lame.so \
+	##build/x264/dist/lib/libx264.so 
 	
 ##all: webm mp4
 all: mp4
@@ -32,7 +33,8 @@ all: mp4
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 clean: clean-js \
 	clean-opus clean-libvpx clean-ffmpeg-webm \
-	clean-lame clean-x264 clean-ffmpeg-mp4
+	clean-lame clean-ffmpeg-mp4
+	##clean-lame clean-x264 clean-ffmpeg-mp4
 clean-js:
 	rm -f ffmpeg*.js
 clean-opus:
@@ -43,8 +45,8 @@ clean-libvpx:
 	##cd build/ffmpeg-webm && git clean -xdf
 clean-lame:
 	cd build/lame && git clean -xdf
-clean-x264:
-	cd build/x264 && git clean -xdf
+##clean-x264:
+	##cd build/x264 && git clean -xdf
 clean-ffmpeg-mp4:
 	cd build/ffmpeg-mp4 && git clean -xdf
 build/opus/configure:
@@ -110,30 +112,30 @@ build/lame/dist/lib/libmp3lame.so:
 	emmake make -j && \
 	emmake make install
 
-build/x264/dist/lib/libx264.so:
-	cd build/x264 && \
-	emconfigure ./configure \
-		--prefix="$$(pwd)/dist" \
-		--extra-cflags="-Wno-unknown-warning-option" \
-		--host=x86-none-linux \
-		--disable-cli \
-		--enable-shared \
-		--disable-opencl \
-		--disable-thread \
-		--disable-interlaced \
-		--bit-depth=8 \
-		--chroma-format=420 \
-		--disable-asm \
-		\
-		--disable-avs \
-		--disable-swscale \
-		--disable-lavf \
-		--disable-ffms \
-		--disable-gpac \
-		--disable-lsmash \
-		&& \
-	emmake make -j && \
-	emmake make install
+##build/x264/dist/lib/libx264.so:
+	##cd build/x264 && \
+	##emconfigure ./configure \
+		##--prefix="$$(pwd)/dist" \
+		##--extra-cflags="-Wno-unknown-warning-option" \
+		##--host=x86-none-linux \
+		##--disable-cli \
+		##--enable-shared \
+		##--disable-opencl \
+		#--disable-thread \
+		##--disable-interlaced \
+		#--bit-depth=8 \
+		##--chroma-format=420 \
+		##--disable-asm \
+		##\
+		##--disable-avs \
+		#--disable-swscale \
+		##--disable-lavf \
+		##--disable-ffms \
+		##--disable-gpac \
+		##--disable-lsmash \
+		##&& \
+	##emmake make -j && \
+	##emmake make install
 
 ##TODO(Kagami): Emscripten documentation recommends to always use shared
 ##libraries but it's not possible in case of ffmpeg because it has
@@ -164,9 +166,9 @@ FFMPEG_COMMON_ARGS = \
 	--enable-ffmpeg \
 	--enable-avcodec \
 	--enable-avformat \
-	--enable-avfilter \
+	##--enable-avfilter \
 	--enable-swresample \
-	--enable-swscale \
+	##--enable-swscale \
 	--disable-network \
 	--disable-d3d11va \
 	--disable-dxva2 \
@@ -201,13 +203,14 @@ FFMPEG_COMMON_ARGS = \
 
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 	cd build/ffmpeg-mp4 && \
-	EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
+	##EM_PKG_CONFIG_PATH=$(FFMPEG_MP4_PC_PATH) emconfigure ./configure \
+		emconfigure ./configure \
 		$(FFMPEG_COMMON_ARGS) \
 		$(addprefix --enable-encoder=,$(MP4_ENCODERS)) \
 		$(addprefix --enable-muxer=,$(MP4_MUXERS)) \
 		--enable-gpl \
 		--enable-libmp3lame \
-		--enable-libx264 \
+		##--enable-libx264 \
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
