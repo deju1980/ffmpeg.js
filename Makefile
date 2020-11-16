@@ -31,7 +31,7 @@ all: mp4
 ##webm: ffmpeg-webm.js ffmpeg-worker-webm.js
 mp4: ffmpeg-mp4.js ffmpeg-worker-mp4.js
 clean: clean-js \
-	clean-opus clean-libvpx clean-ffmpeg-webm \
+	clean-opus clean-libvpx  \
 	clean-lame clean-x264 clean-ffmpeg-mp4
 clean-js:
 	rm -f ffmpeg*.js
